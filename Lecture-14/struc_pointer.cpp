@@ -64,6 +64,10 @@ int main() {
     printStudent(s);
 
 
+    student* s = new student();
+    (*s).age = 20;
+    s->age = 20;
+
 
 }
 
