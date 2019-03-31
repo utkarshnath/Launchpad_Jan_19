@@ -3,12 +3,14 @@ using namespace std;
 struct node{
     int data;
     node* next;
+    bool visited;
     node(){
 
     }
     node(int data){
         this->data = data;
         this->next = NULL;
+        visited = false;
     }
 };
 node * createll(){
@@ -279,7 +281,99 @@ pair<node *,node *> reversell(node * head){
     return p;
 
 }
+
+pair<node*,node*> kreverse(node* head,int k){
+    if(head==NULL){
+        pair<node*,node*>p(NULL,NULL);
+        return p;
+    }
+    node * it = head;
+    for(int i=1;i<k;i++){
+        if(it->next==NULL){
+            break;
+        }
+        it = it->next;
+    }
+    node * newHead = it->next;
+    it->next = NULL;
+    pair<node*,node*>p = reversell(head);
+    pair<node*,node*>currp = kreverse(newHead,k);
+    if(currp.first==NULL){
+        return p;
+    }
+    p.second->next = currp.first;
+    p.second = currp.second;
+    return p;
+
+}
+node * mergell(node * head1, node * head2){
+    node * head = NULL;
+    if(head1==NULL && head2==NULL){
+        return NULL;
+    }
+    if(head1==NULL){
+        return head2;
+    }
+    if(head2==NULL){
+        return head1;
+    }
+    if(head1->data < head2->data){
+        head = head1;
+        head1 = head1->next;
+    }else{
+        head = head2;
+        head2 = head2->next;
+    }
+    node * it = head;
+    while(head1 && head2){
+        if(head1->data < head2->data){
+            it->next = head1;
+            it = it->next;
+            head1 = head1->next;
+        }else{
+            it->next = head2;
+            it = it->next;
+            head2 = head2->next;
+        }
+    }
+    if(head1){
+        it->next = head1;
+    }
+    if(head2){
+        it->next = head2;
+    }
+    return head;
+}
+node * mergeSort(node * head,int start,int end){
+    if(start>end){
+        return NULL;
+    }
+    if(start==end){
+        return head;
+    }
+    int mid = (start+end)/2;
+    // note this line
+    node * midNode = findAtPositionK(head,mid-start);
+    node * head1 = head;
+    node * head2 = midNode->next;
+    midNode->next = NULL;
+    head1 = mergeSort(head1,start,mid);
+    head2 = mergeSort(head2,mid+1,end);
+    head = mergell(head1,head2);
+    return head;
+}
+bool isCircular(node * head){
+    while(head){
+        if(head->visited==true){
+            return true;
+        }
+        head->visited=true;
+        head = head->next;
+    }
+    return false;
+}
 int main(){
+    /*
 //node * head = createll();
 node * head = NULL;
 //createll2(head);
@@ -302,6 +396,17 @@ print(head);
 node * tail = 0;
 pair<node*,node*>p = reversell(head);
 print(p.first);
+*/
+node * head1 = NULL;
+createll2(head1);
+print(head1);
+//node * head2 = NULL;
+//createll2(head2);
+//node * head = mergeSort(head1,0,6);
+//print(head);
+pair<node*,node*> p =kreverse(head1,3);
+print(p.first);
+
 }
 
 
