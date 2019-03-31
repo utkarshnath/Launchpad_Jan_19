@@ -3,9 +3,10 @@
 using namespace std;
 template<typename T>
 struct stack{
+    private:
     //vector<int>v;
     vector<T>v;
-private:
+public:
     int size(){
         return v.size();
     }
@@ -33,6 +34,7 @@ private:
 int main(){
 stack<char> s;
 stack<int> s1;
+cout<<s.v[0]<<endl;
 cout<<s.size()<<endl;
 s.push('A');
 s.push('B');
