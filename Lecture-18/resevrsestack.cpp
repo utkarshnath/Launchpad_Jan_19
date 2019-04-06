@@ -7,7 +7,7 @@ void reverseStack(stack<int>&s){
     while(!s.empty()){
         s1.push(s.top());
         s.pop();
-    }n
+    }
     while(!s1.empty()){
         s2.push(s1.top());
         s1.pop();

@@ -1,4 +1,5 @@
 #include<iostream>
+
 using namespace std;
 struct node{
     int data;
@@ -17,7 +18,7 @@ struct node{
 };
 
 class queue{
-    node * head = NULL;
+    node * head;
     node * tail;
     int size;
 
@@ -26,12 +27,36 @@ public:
         head = tail = NULL;
         size = 0;
     }
+    void enqueue(int data){
+        node * temp = new node(data);
+        size++;
+        if(head==NULL){
+            head = tail = temp;
+            return;
+        }
+        tail->next = temp;
+        tail = temp;
+        return;
+    }
 
-    void enqueue();
+    void dequeue(){
+        if(head!=NULL){
+            node * temp = head;
+            head = head->next;
+            delete temp;
+            size--;
+            return;
+        }
+    }
+    int front(){
+        if(head!=NULL){
+            return head->data;
+        }
+        return -1;
+    }
 };
 
 int main(){
-node * head = new node(5);
-cout<<head->data;
+
 }
 
