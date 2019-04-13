@@ -284,13 +284,44 @@ node * treeFromInAndPre(vector<int>pre,int pstart,int pend,vector<int>in,int ist
         root->right = treeFromInAndPre(pre,pstart+l+1,pend,in,index+1,iend);
         return root;
 }
+void printStack(stack<int>s){
+    while(!s.empty()){
+        cout<<s.top()<<" ";
+        s.pop();
+    }
+    cout<<endl;
+}
+bool path(node * root,int k,stack<int>&s){
+    if(!root){
+        return false;
+    }
+    if(root->data==k){
+        s.push(k);
+        cout<<"Print stack"<<endl;
+        cout<<s.top();
+        printStack(s);
+        return true;
+    }
+    s.push(root->data);
+    bool left = path(root->left,k,s);
+    if(left){
+        return true;
+    }
+    bool right = path(root->right,k,s);
+    if(right){
+        return true;
+    }
+    s.pop();
+    return false;
+}
+
 // 8 10 3 1 6 -1 14 -1 -1 4 7 13 -1 -1 -1 -1 -1 -1 -1
 int main(){
-/*
+
 node * root = createBtree();
 levelorder(root);
 cout<<endl;
-
+/*
 preorder(root);
 cout<<endl;
 inorder(root);
@@ -308,7 +339,7 @@ cout<<p.second<<endl;
 */
 //levelOrderPrint(root);
 //cout<<diameter(root)<<endl;
-
+/*
 vector<int>pre;
 pre.push_back(1);pre.push_back(2);pre.push_back(4);pre.push_back(3);pre.push_back(5);
 vector<int>in;
@@ -319,6 +350,9 @@ preorder(root1);
 cout<<endl;
 inorder(root1);
 cout<<endl;
+*/
+stack<int>s;
+path(root,13,s);
 }
 
 
