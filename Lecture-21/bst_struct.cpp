@@ -14,9 +14,8 @@ struct node{
     }
 };
 
-    void addElement(node * root, int data){
+    void addElement(node *& root, int data){
         node * temp = new node(data);
-        size++;
         if(!root){
             root = temp;
             return;
@@ -97,7 +96,7 @@ struct node{
     }
 }
 
-};
+
 node * removeElement(node * root,int data){
         if(root==NULL){
             return NULL;
@@ -146,9 +145,67 @@ node * removeElement(node * root,int data){
 
         return root;
     }
+
+void printInRange(node * root,int k1,int k2){
+    if(root==NULL){
+        return;
+    }
+    if(root->data > k1){
+        printInRange(root->left,k1,k2);
+    }
+    if(root->data >=k1 && root->data<=k2){
+        cout<<root->data<<" ";
+    }
+    if(root->data < k2){
+        printInRange(root->right,k1,k2);
+    }
+    return;
+}
+
+node * sortedLL(node * root){
+    if(root==NULL){
+        return NULL;
+    }
+    node * temp = new node(root->data);
+    node * headLeft = sortedLL(root->left);
+    node * headRight = sortedLL(root->right);
+    node * it = headLeft;
+    if(it==NULL){
+        headLeft = temp;
+        temp->left = headRight;
+        return temp;
+    }
+    while(it->left){
+        it = it->left;
+    }
+    it->left = temp;
+    temp->left = headRight;
+    return headLeft;
+}
+
+void printLL(node * root){
+    while(root){
+        cout<<root->data<<"-->";
+        root = root->left;
+    }
+    cout<<"NULL"<<endl;
+}
+bool isBST(node * root){
+    static int prev = INT_MIN;
+    if(!root){
+        return true;
+    }
+    bool left = isBST(root->left);
+    if(root->data < prev  || !left){
+        return false;
+    }
+    prev = root->data;
+    bool right  = isBST(root->right);
+    return right;
+}
 // 8 10 3 1 6 -1 14 -1 -1 4 7 13 -1 -1 -1 -1 -1 -1 -1
 int main(){
-node * root = NULL
+node * root = NULL;
 addElement(root,8);
 addElement(root,10);
 addElement(root,3);
@@ -163,8 +220,15 @@ levelOrderPrint(root);
 cout<<search(root,11);
 cout<<search(root,13);
 cout<<endl;
-root = removeElement(root,8);
+//root = removeElement(root,8);
 levelOrderPrint(root);
+root = sortedLL(root);
+printLL(root);
 }
+
+
+
+
+
 
 
