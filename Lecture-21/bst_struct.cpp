@@ -13,24 +13,8 @@ struct node{
         depth = 0;
     }
 };
-struct bst{
-    node * root;
-    int size;
 
-    bst(){
-        root=NULL;
-        size = 0;
-    }
-    int Size(){
-        return size;
-    }
-    node * getRoot(){
-        return root;
-    }
-    void setRoot(node * root){
-        this->root = root;
-    }
-    void addElement(int data){
+    void addElement(node * root, int data){
         node * temp = new node(data);
         size++;
         if(!root){
@@ -57,7 +41,7 @@ struct bst{
         }
     }
 
-    bool search(int data){
+    bool search(node * root, int data){
         node * it = root;
         while(it){
             if(it->data==data){
@@ -73,7 +57,7 @@ struct bst{
     }
 
 
-    void levelOrderPrint(){
+    void levelOrderPrint(node * root){
     if(root==NULL){
         return;
     }
@@ -114,7 +98,7 @@ struct bst{
 }
 
 };
-node * removeElement(node *& root,int data){
+node * removeElement(node * root,int data){
         if(root==NULL){
             return NULL;
         }
@@ -164,25 +148,23 @@ node * removeElement(node *& root,int data){
     }
 // 8 10 3 1 6 -1 14 -1 -1 4 7 13 -1 -1 -1 -1 -1 -1 -1
 int main(){
-bst b;
-b.addElement(8);
-b.addElement(10);
-b.addElement(3);
-b.addElement(1);
-b.addElement(6);
-b.addElement(14);
-b.addElement(4);
-b.addElement(7);
-b.addElement(13);
-b.addElement(9);
-b.levelOrderPrint();
-cout<<b.search(11);
-cout<<b.search(13);
+node * root = NULL
+addElement(root,8);
+addElement(root,10);
+addElement(root,3);
+addElement(root,1);
+addElement(root,6);
+addElement(root,14);
+addElement(root,4);
+addElement(root,7);
+addElement(root,13);
+addElement(root,9);
+levelOrderPrint(root);
+cout<<search(root,11);
+cout<<search(root,13);
 cout<<endl;
-node * root = b.getRoot();
 root = removeElement(root,8);
-b.setRoot(root);
-b.levelOrderPrint();
+levelOrderPrint(root);
 }
 
 
