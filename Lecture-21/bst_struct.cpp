@@ -203,6 +203,44 @@ bool isBST(node * root){
     bool right  = isBST(root->right);
     return right;
 }
+
+node *  bstFromSortedArray(int * arr, int start,int end){
+    if(start>end){
+        return NULL;
+    }
+    int mid = (start+end)/2;
+    node * root = new node(arr[mid]);
+    root->left = bstFromSortedArray(arr,start,mid-1);
+    root->right = bstFromSortedArray(arr,mid+1,end);
+    return root;
+}
+int medianBst(node * root, int len){
+    if(root==NULL){
+        return -1;
+    }
+    static int index = -1;
+    int l = medianBst(root->left,len);
+    if(l!=-1){
+        return l;
+    }
+    index++;
+    if(index==len/2){
+        return root->data;
+    }
+    int r = medianBst(root->right,len);
+    return r;
+}
+bool balanced(node * root){
+    if(root==NULL){
+        return true;
+    }
+    bool leftBal = balanced(root->left);
+    bool rightBal = balanced(root->right);
+    int lh = height(root->left);
+    int rh = height(root->right);
+    return leftBal & rightBal & (abs(lh-rh)<=1)
+
+}
 // 8 10 3 1 6 -1 14 -1 -1 4 7 13 -1 -1 -1 -1 -1 -1 -1
 int main(){
 node * root = NULL;
@@ -216,14 +254,15 @@ addElement(root,4);
 addElement(root,7);
 addElement(root,13);
 addElement(root,9);
-levelOrderPrint(root);
-cout<<search(root,11);
-cout<<search(root,13);
-cout<<endl;
+//levelOrderPrint(root);
+//cout<<search(root,11);
+//cout<<search(root,13);
+//cout<<endl;
 //root = removeElement(root,8);
-levelOrderPrint(root);
-root = sortedLL(root);
-printLL(root);
+//levelOrderPrint(root);
+//root = sortedLL(root);
+//printLL(root);
+cout<<medianBst(root,8)<<endl;
 }
 
 
