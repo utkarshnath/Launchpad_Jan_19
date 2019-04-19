@@ -12,6 +12,12 @@ struct node{
         this->value = value;
         next = NULL;
     }
+    ~node(){
+        // I am destructor
+        if(next!=NULL){
+            delete next;
+        }
+    }
 };
 template<typename T>
 class hashtable{
@@ -31,6 +37,25 @@ class hashtable{
         }
         return index;
     }
+    void rehash(){
+        node<T> ** oldTable = table;
+        int oldTableSize = tableSize;
+        tableSize*=2;
+        currentSize = 0;
+        table = new node<T>*[tableSize];
+        for(int i=0;i<tableSize;i++){
+            table[i] = 0;
+        }
+        for(int i=0;i<oldTableSize;i++){
+            node<T>* head = oldTable[i];
+            while(head){
+                insert(head->key,head->value);
+                head = head->next;
+            }
+            delete oldTable[i];
+        }
+        delete []oldTable;
+    }
 public:
     hashtable(int size=7){
         tableSize = size;
@@ -48,6 +73,10 @@ public:
         temp->next = head;
         table[index] = temp;
         currentSize++;
+        float loadFactor = 0.8;
+        if(currentSize/(tableSize*1.0) > loadFactor){
+            rehash();
+        }
         return;
     }
 
@@ -66,11 +95,13 @@ public:
                 if(prev==NULL){
                     node<T>* temp = head;
                     table[index] = head->next;
+                    temp->next = NULL;
                     delete temp;
                     return;
                 }
                 node<T>* temp = head;
                 prev->next = head->next;
+                temp->next = NULL;
                 delete temp;
                 return;
             }
@@ -88,17 +119,20 @@ public:
             }
             cout<<"NULL"<<endl;;
         }
+        cout<<"*******************************"<<endl;
     }
 };
 int main(){
     hashtable<int>h;
     h.insert("Mango",100);
-    h.insert("Mango",200);
+    h.insert("wefwer",200);
     h.insert("Apple",20);
-    h.insert("guava",30);
-    h.insert("ergferre",100);
+    h.insert("uwer",20);
+    h.insert("refergre",20);
     h.print();
-    h.erase("Mango",100);
+    h.erase("wwer",100);
+    h.insert("guaewrfeva",30);
+    h.insert("qfe",100);
     h.print();
 }
 
